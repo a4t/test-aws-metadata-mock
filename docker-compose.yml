@@ -1,0 +1,24 @@
+version: "3"
+
+networks:
+  metadata:
+    driver: bridge
+    ipam:
+     driver: default
+     config:
+       - subnet: 169.254.169.0/24
+
+services:
+  nginx:
+    image: nginx:latest
+    networks:
+      metadata:
+        ipv4_address: "169.254.169.254"
+
+  app:
+    image: curlimages/curl:7.68.0
+    command: curl 169.254.169.254
+    networks:
+      metadata:
+    depends_on:
+      - nginx
